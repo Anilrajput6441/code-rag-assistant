@@ -1,0 +1,50 @@
+# ================== SECRETS & CONFIG ==================
+*.env
+.env*
+config.json
+secrets/
+*.key
+*.pem
+api_keys.txt
+
+# ================== BUILD & DEPENDENCIES ==================
+# Go
+/vendor/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ================== DATA & TEMP FILES ==================
+data/
+temp/
+tmp/
+*.tmp
+*.log
+*.sqlite
+*.db
+
+# ================== IDE & OS ==================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ================== DEPLOYMENT ==================
+dist/
+build/
+*.zip
+*.tar.gz

@@ -79,10 +79,13 @@ func IngestRepo(cfg config.Config, repoURL string) error {
 	fmt.Println("Total chunks to process:", len(records))
 
 	// ==================  CREATE EMBEDDER ONCE ==================
-	embedder, err := NewEmbedder() // 🔄 CHANGED
+	fmt.Println("Creating embedder...")
+	embedder, err := NewEmbedder()
 	if err != nil {
+		fmt.Printf("❌ Failed to create embedder: %v\n", err)
 		return err
 	}
+	fmt.Println("✅ Embedder created successfully")
 
 	// ================== STEP 3: GENERATE EMBEDDINGS ==================
 	fmt.Println("Generating embeddings...")
@@ -103,12 +106,16 @@ func IngestRepo(cfg config.Config, repoURL string) error {
 	// ================== STEP 4: SAVE TO DISK ==================
 	os.MkdirAll("data", 0755)
 
+	fmt.Println("Serializing", len(records), "records to JSON...")
 	data, err := json.MarshalIndent(records, "", "  ")
 	if err != nil {
+		fmt.Printf("❌ Failed to marshal JSON: %v\n", err)
 		return err
 	}
 
+	fmt.Printf("Writing %d bytes to vectors.json...\n", len(data))
 	if err := os.WriteFile("data/vectors.json", data, 0644); err != nil {
+		fmt.Printf("❌ Failed to write file: %v\n", err)
 		return err
 	}
 
