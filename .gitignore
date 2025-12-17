@@ -6,6 +6,7 @@ secrets/
 *.key
 *.pem
 api_keys.txt
+firebase-service-account.json
 
 # ================== BUILD & DEPENDENCIES ==================
 # Go

@@ -6,6 +6,8 @@ import (
 	"rag-go/internal/query"
 	"time"
 
+	"rag-go/internal/auth"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
@@ -14,6 +16,7 @@ func main() {
 	cfg := config.Load()
 
 	r := gin.Default()
+	auth.InitFirebase()
 
 	// ✅ CORS CONFIG
 	r.Use(cors.New(cors.Config{
@@ -25,8 +28,8 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	r.POST("/ingest", ingest.IngestHandler(cfg))
-	r.POST("/query", query.QueryHandler())
+	r.POST("/ingest", auth.RequireAuth(), ingest.IngestHandler(cfg))
+	r.POST("/query", auth.RequireAuth(), query.QueryHandler())
 
 	r.Run(":" + cfg.Port)
 }
