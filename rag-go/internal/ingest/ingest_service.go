@@ -7,11 +7,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"rag-go/internal/config"
 	"rag-go/internal/storage"
 )
 
-func IngestRepo(cfg config.Config, repoURL string) error {
+func IngestRepo(apiKey string, repoURL string) error {
 	fmt.Println("Ingesting:", repoURL)
 
 	repoDir := filepath.Join(os.TempDir(), "rag_repo")
@@ -80,7 +79,7 @@ func IngestRepo(cfg config.Config, repoURL string) error {
 
 	// ==================  CREATE EMBEDDER ONCE ==================
 	fmt.Println("Creating embedder...")
-	embedder, err := NewEmbedder()
+	embedder, err := NewEmbedder(apiKey)
 	if err != nil {
 		fmt.Printf("❌ Failed to create embedder: %v\n", err)
 		return err
@@ -91,12 +90,18 @@ func IngestRepo(cfg config.Config, repoURL string) error {
 	fmt.Println("Generating embeddings...")
 
 	for i := range records {
-		//  USE SDK EMBEDDER (NO API KEY PASSED)
+		// Generate embedding
 		vec, err := embedder.EmbedText(records[i].Content)
 		if err != nil {
 			return err
 		}
-		records[i].Embedding = vec
+
+		// Convert []float64 to []float32
+		float32Vec := make([]float32, len(vec))
+		for j, v := range vec {
+			float32Vec[j] = float32(v)
+		}
+		records[i].Embedding = float32Vec
 
 		if i%20 == 0 {
 			fmt.Printf("Progress: %d/%d chunks embedded\n", i, len(records))

@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"rag-go/internal/config"
+	"rag-go/internal/user"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,8 +25,16 @@ func IngestHandler(cfg config.Config) gin.HandlerFunc {
 			return
 		}
 
+		// ========== GET USER API KEY ==========
+		userID := c.GetString("userId")
+		apiKey, err := user.GetUserAPIKey(userID, cfg.EncryptionSecret)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "API key not found. Please save your API key first."})
+			return
+		}
+
 		// ========== PROCESS INGESTION ==========
-		if err := IngestRepo(cfg, req.RepoURL); err != nil {
+		if err := IngestRepo(apiKey, req.RepoURL); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}

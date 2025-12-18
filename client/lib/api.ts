@@ -42,6 +42,26 @@ export async function askQuestion(question: string, topK = 5) {
   return res.json();
 }
 
+export async function saveApiKey(apiKey: string) {
+  const authHeader = await getAuthHeader();
+
+  const res = await fetch(`${BASE_URL}/user/api-key`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...authHeader,
+    },
+    body: JSON.stringify({ api_key: apiKey }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.error || "Failed to save API key");
+  }
+
+  return res.json();
+}
+
 async function getAuthHeader() {
   const user = auth.currentUser;
   if (!user) {

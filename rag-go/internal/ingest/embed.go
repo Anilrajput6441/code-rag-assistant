@@ -12,9 +12,16 @@ type Embedder struct {
 	ctx    context.Context
 }
 
-func NewEmbedder() (*Embedder, error) {
+func NewEmbedder(apiKey string) (*Embedder, error) {
 	ctx := context.Background()
-	client, err := genai.NewClient(ctx, nil)
+
+	if apiKey == "" {
+		return nil, errors.New("API key is required")
+	}
+
+	client, err := genai.NewClient(ctx, &genai.ClientConfig{
+		APIKey: apiKey,
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -25,10 +32,9 @@ func NewEmbedder() (*Embedder, error) {
 	}, nil
 }
 
-func (e *Embedder) EmbedText(text string) ([]float32, error) {
+func (e *Embedder) EmbedText(text string) ([]float64, error) {
 	contents := []*genai.Content{
-		genai.NewContentFromText(text, genai.RoleUser),
-	}
+		genai.NewContentFromText(text, genai.RoleUser)}
 
 	result, err := e.client.Models.EmbedContent(
 		e.ctx,
@@ -44,5 +50,11 @@ func (e *Embedder) EmbedText(text string) ([]float32, error) {
 		return nil, errors.New("no embeddings returned")
 	}
 
-	return result.Embeddings[0].Values, nil
+	values := result.Embeddings[0].Values
+	float64Values := make([]float64, len(values))
+	for i, v := range values {
+		float64Values[i] = float64(v)
+	}
+
+	return float64Values, nil
 }

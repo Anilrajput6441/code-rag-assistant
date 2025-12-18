@@ -1,6 +1,7 @@
 import IngestBox from "@/components/IngestBox";
 import ChatBox from "@/components/ChatBox";
 import AuthBox from "@/components/AuthBox";
+import ApiKeySetup from "@/components/ApiKeySetup";
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
         AI Code Intelligence Assistant
       </h1>
       <AuthBox />
+      <ApiKeySetup />
       <IngestBox />
       <ChatBox />
     </main>

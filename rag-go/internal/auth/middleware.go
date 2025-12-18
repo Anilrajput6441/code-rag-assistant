@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -8,6 +9,7 @@ import (
 )
 
 func RequireAuth() gin.HandlerFunc {
+	fmt.Print("req auth hit")
 	return func(c *gin.Context) {
 		header := c.GetHeader("Authorization")
 		if header == "" {

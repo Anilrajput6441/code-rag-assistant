@@ -6,26 +6,35 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// ================== APPLICATION CONFIG ==================
 type Config struct {
-	Port   string
-	ApiKey string
+	Port              string
+	FirebaseProjectID string
+	EncryptionSecret  string
 }
 
 func Load() Config {
 	_ = godotenv.Load()
 
-	apiKey := os.Getenv("GEMINI_API_KEY")
-	if apiKey == "" {
-		panic("GEMINI_API_KEY missing")
-	}
-
+	// ========== LOAD ENVIRONMENT VARIABLES ==========
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "9000"
 	}
+	
+	firebaseProjectID := os.Getenv("FIREBASE_PROJECT_ID")
+	if firebaseProjectID == "" {
+		firebaseProjectID = "code-rag-assistant"
+	}
+	
+	encryptionSecret := os.Getenv("ENCRYPTION_SECRET")
+	if encryptionSecret == "" {
+		encryptionSecret = "default-secret-key-change-in-production"
+	}
 
 	return Config{
-		Port:   port,
-		ApiKey: apiKey,
+		Port:              port,
+		FirebaseProjectID: firebaseProjectID,
+		EncryptionSecret:  encryptionSecret,
 	}
 }
