@@ -23,7 +23,7 @@ export default function ChatBox() {
   }
 
   return (
-    <div className="border rounded-lg p-4">
+    <div className="border rounded-lg p-4 bg-blue-400">
       <h2 className="font-semibold mb-2">Ask a Question</h2>
 
       <textarea

@@ -31,7 +31,7 @@ export default function AuthBox() {
   }
 
   return (
-    <div className="border p-4 rounded mb-6">
+    <div className="border bg-blue-400 p-4 rounded mb-6">
       <h2 className="font-semibold mb-2">Login / Signup</h2>
 
       <input

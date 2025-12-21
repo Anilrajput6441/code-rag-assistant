@@ -24,7 +24,7 @@ export default function IngestBox() {
   }
 
   return (
-    <div className="border rounded-lg p-4 mb-6">
+    <div className="border rounded-lg p-4 mb-6 bg-blue-400">
       <h2 className="font-semibold mb-2">Ingest Repository</h2>
 
       <input

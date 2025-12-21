@@ -13,12 +13,12 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="border-b mb-8 text-white">
+    <header className="border-b mb-8 text-white bg-blue-400">
       <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Left */}
         <div>
           <h1 className="text-xl font-bold">Code RAG Assistant</h1>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-black">
             Ask questions about any GitHub repository using AI
           </p>
         </div>
@@ -27,7 +27,7 @@ export default function Header() {
         <div className="text-sm">
           {user ? (
             <div className="flex items-center gap-3">
-              <span className="text-gray-600">{user.email}</span>
+              <span className="text-black">{user.email}</span>
               <button
                 onClick={() => signOut(auth)}
                 className="border px-3 py-1 rounded hover:bg-gray-100"
@@ -36,7 +36,7 @@ export default function Header() {
               </button>
             </div>
           ) : (
-            <span className="text-gray-500">Not logged in</span>
+            <span className="text-black">Not logged in</span>
           )}
         </div>
       </div>

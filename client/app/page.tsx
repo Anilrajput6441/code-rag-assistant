@@ -67,8 +67,46 @@ export default function Home() {
         <Header />
       </div>
 
+      {/* Menu Bar */}
+      <div className="relative z-10 flex justify-center pt-8 pb-4">
+        <div className="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 border border-white/20">
+          <div className="flex gap-4">
+            {panels.map((_, index) => {
+              const icons = [
+                // Lock icon for Authentication
+                <svg key="auth" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                </svg>,
+                // Folder icon for Repository Ingestion
+                <svg key="folder" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+                </svg>,
+                // Chat bubble icon for Ask Questions
+                <svg key="chat" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
+                </svg>
+              ];
+              
+              return (
+                <button
+                  key={index}
+                  onClick={() => setActivePanel(index)}
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 ${
+                    index === activePanel
+                      ? "bg-white/20 text-white scale-110 shadow-lg"
+                      : "bg-white/10 text-white/70 hover:bg-white/15 hover:text-white"
+                  }`}
+                >
+                  {icons[index]}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
       {/* Curved Carousel Container */}
-      <div className="relative z-10 h-[80vh] flex items-center justify-center">
+      <div className="relative z-10 h-[70vh] flex items-center justify-center">
         <div 
           className="relative w-full h-full"
           style={{ perspective: "1200px" }}
@@ -87,8 +125,8 @@ export default function Home() {
             return (
               <div
                 key={index}
-                className={`absolute inset-0 flex items-center justify-center transition-all duration-700 ease-out ${
-                  index === activePanel ? "z-20" : "z-10"
+                className={`absolute inset-0 flex text-white items-center justify-center transition-all duration-700 ease-out ${
+                  index === activePanel ? "z-20" : " z-10"
                 }`}
                 style={{
                   transform: `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
@@ -97,7 +135,7 @@ export default function Home() {
                 }}
               >
                 <div className="w-full max-w-2xl">
-                  <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 h-[60vh] overflow-y-auto shadow-2xl">
+                  <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 h-[60vh] overflow-y-hidden overflow-x-hidden shadow-2xl">
                     <h2 className="text-2xl font-semibold mb-6 text-white text-center">
                       {panel.title}
                     </h2>
@@ -113,16 +151,16 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Navigation Dots */}
-      <div className="relative z-10 flex justify-center gap-3 mt-8">
+      {/* Navigation Dots - Bottom (Optional) */}
+      <div className="relative z-10 flex justify-center gap-3 mt-6">
         {panels.map((_, index) => (
           <button
             key={index}
             onClick={() => setActivePanel(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
               index === activePanel
-                ? "bg-white scale-125"
-                : "bg-white/40 hover:bg-white/60"
+                ? "bg-white/80"
+                : "bg-white/30 hover:bg-white/50"
             }`}
           />
         ))}
